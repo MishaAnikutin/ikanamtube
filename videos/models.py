@@ -8,11 +8,11 @@ storage = S3Storage(aws_s3_bucket_name=AWS_STORAGE_BUCKET_NAME)
 
 
 def videos_upload_to(instance, filename):
-    return f"videos/{instance.user.username}/{filename}"
+    return f"videos/{instance.channel.username}/{filename}"
 
 
 def video_cover_upload_to(instance, filename):
-    return f"videos/{instance.user.username}/{filename}"
+    return f"videos/{instance.channel.username}/{filename}"
 
 
 class Video(models.Model):
