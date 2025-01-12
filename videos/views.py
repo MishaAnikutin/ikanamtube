@@ -2,11 +2,11 @@ from django.views import View
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.http import StreamingHttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Video
+from .models import Video, LikeDislike
 from .forms import VideoForm
 
 
@@ -43,8 +43,39 @@ class VideoListView(ListView):
         return Video.objects.order_by('-uploaded_at')
 
 
-class VideoDetailView(DetailView):
-    model = Video
-    template_name = 'videos/video_detail.html'
-    context_object_name = 'video'
+class VideoDetailView(View):
+    def get(self, request, pk):
+        video = get_object_or_404(Video, pk=pk)
 
+        # Получаем количество лайков и дизлайков
+        likes_count = LikeDislike.objects.filter(video=video, is_like=True).count()
+        dislikes_count = LikeDislike.objects.filter(video=video, is_like=False).count()
+
+        return render(request, 'videos/video_detail.html', {
+            'video': video,
+            'likes_count': likes_count,
+            'dislikes_count': dislikes_count,
+        })
+
+class LikeDislikeView(View):
+    def post(self, request, video_id):
+        video = get_object_or_404(Video, id=video_id)
+
+        like_dislike, created = LikeDislike.objects.get_or_create(user=request.user, video=video)
+
+        if created:
+            # Если это новый лайк/дизлайк, устанавливаем его
+            if request.POST.get('action') == 'like':
+                like_dislike.is_like = True
+
+            elif request.POST.get('action') == 'dislike':
+                like_dislike.is_like = False
+
+            like_dislike.save()
+        else:
+            # Если уже существует, просто удаляем его
+            like_dislike.delete()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
+        # return redirect('channel', username=video.channel.username)  # вернуть на нужную страницу
