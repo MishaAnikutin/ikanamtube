@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.views import LoginView
 from django.views import View
+from django.views.generic import ListView
 
+from videos.models import Video
 from .forms import SignUpForm, UserLoginForm, CustomUserChangeForm, UserProfileForm
 from .models import CustomUser
 
@@ -60,14 +62,13 @@ def logout_view(request):
     return redirect('home')
 
 
-def list_users(request):
-    users = CustomUser.objects.all()
-    return render(request, "users/users_list.html", {"users": users})
-
-
 @login_required
 def personal_account_view(request):
-    return render(request, 'users/personal_account.html', {'form': CustomUserChangeForm()})
+    videos = Video.objects.filter(channel=request.user)
+
+    return render(request, 'users/personal_account.html', {
+        'videos': videos,
+    })
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -82,3 +83,24 @@ class ProfileView(LoginRequiredMixin, View):
             return redirect('users:profile')
 
         return render(request, 'users/profile.html', {'form': form})
+
+
+class ChannelView(View):
+    def get(self, request, username):
+        user = get_object_or_404(CustomUser, username=username)
+        videos = Video.objects.filter(channel=user)
+
+        return render(request, 'users/channel.html', {
+            'user': user,
+            'videos': videos,
+        })
+
+
+class UserListView(ListView):
+    model = CustomUser
+    template_name = 'users/user_list.html'
+    context_object_name = 'users'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return CustomUser.objects.all()

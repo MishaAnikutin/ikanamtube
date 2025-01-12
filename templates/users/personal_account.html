@@ -17,4 +17,19 @@
     </table>
     <a href="{% url 'users:profile' %}">Изменить</a>
     <h2>Мои видео</h2>
+    <a href="{% url 'videos:video_upload' %}">Загрузить видео</a>
+
+    {% for video in videos %}
+        <li>
+            {% if video.video_cover_file %}
+                <img src="{{ video.video_cover_file.url }}" alt="{{ video.title }}" width="500" height="300">
+            {% endif %}
+            <h3>{{ video.title }}</h3>
+            <p>{{ video.description }}</p>
+            <p>Загрузка: {{ video.uploaded_at }}</p>
+            <p>Канал: {{ video.channel.name }}</p>
+            <a href="{% url 'videos:video_detail' video.pk %}">Подробнее</a>
+        </li>
+      {% endfor %}
+
 {% endblock %}
