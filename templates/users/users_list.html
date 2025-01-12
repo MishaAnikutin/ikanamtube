@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Каналы</h2>
+<a href="{% url 'users:signup' %}">Создать канал</a>
+<ul>
+    {% for user in users %}
+        <li>
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.description }}</p>
+            {% if user.icon %}
+                <img src="{{ user.icon.url }}" alt="{{ user.name }}" width="100">
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
