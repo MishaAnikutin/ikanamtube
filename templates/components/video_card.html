@@ -1,8 +1,12 @@
-<div class="video-component" id="video-{{ video.id }}">
-    <img src="{{ video.video_cover_file.url }}" alt="{{ video.title }}" width="500" height="300">
-    <div class="video-info">
-        <h5>{{ video.title }}</h5>
-        <p>{{ video.description }}</p>
-        <a href="{% url 'channel' video.channel.username %}">Канал: {{ video.channel.name }}</a>
-    </div>
+<div class="video-component">
+    <a href="{% url 'videos:video_detail' video.pk %}">
+        <img src="{{ video.video_cover_file.url }}" alt="{{ video.title }}" class="video-thumbnail">
+        <div class="video-info">
+            <h5>{{ video.title }}</h5>
+            <p>{{ video.description }}</p>
+            <p><a href="{% url 'users:channel' video.channel.username %}">{{ video.channel.name }}</a></p>
+        </div>
+    </a>
 </div>
+
+

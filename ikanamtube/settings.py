@@ -144,5 +144,5 @@ AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-# Ограничение размера загружаемых файлов (2MB)
+# Ограничение размера загружаемых фотографий (2MB)
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024
