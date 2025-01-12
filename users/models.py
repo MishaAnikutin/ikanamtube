@@ -8,10 +8,11 @@ from ikanamtube.settings import AWS_STORAGE_BUCKET_NAME
 storage = S3Storage(aws_s3_bucket_name=AWS_STORAGE_BUCKET_NAME)
 
 
-def icons_upload_to(instance, filename):
-    return f"channel_icons/{instance.username}/{filename}"
+def upload_to(instance, filename):
+    return f"user_icons/{instance.username}/{filename}"
 
 
-class Channel(AbstractUser):
+class CustomUser(AbstractUser):
+    name = models.TextField(blank=True)
     description = models.TextField(blank=True)
-    icon = models.ImageField(storage=storage, upload_to=icons_upload_to)
+    icon = models.ImageField(storage=storage, upload_to=upload_to)

@@ -40,9 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "channels",
     "storages",
-    "videos",
+    "users",
 ]
 
 
@@ -106,9 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'channels.Channel'
-LOGIN_REDIRECT_URL = 'home'  # Страница после успешного входа
-LOGOUT_REDIRECT_URL = 'home'  # Страница после выхода
+AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

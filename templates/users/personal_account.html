@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Мой аккаунт</h2>
+    <table>
+        <tr>
+            {% if user.icon %} <td><img src="{{ user.icon.url }}" alt="{{ user.username }}" width="100"></td>
+            {% else %}         <td>Нет фото</td>
+            {% endif %}
+        </tr>
+        <tr><td><b>Имя пользователя:</b></td><td>{{ user.username }}</td></tr>
+        <tr><td><b>Описание канала:</b></td><td>
+            {% if user.description %} {{ user.description }}
+            {% else %} нет описания
+            {% endif %}
+        </td></tr>
+    </table>
+    <a href="{% url 'users:profile' %}">Изменить</a>
+    <h2>Мои видео</h2>
+{% endblock %}

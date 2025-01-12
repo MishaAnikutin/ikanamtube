@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Выход</title>
+    <style>
+        /* Простая стилизация сообщения */
+        .logout-message {
+            width: 300px;
+            margin: 100px auto;
+            text-align: center;
+            font-size: 18px;
+        }
+        .logout-message a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-message">
+        <p>Вы успешно вышли из системы.</p>
+        <p><a href="{% url 'users:login' %}">Войти снова</a></p>
+    </div>
+</body>
+</html>

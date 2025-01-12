@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Настройки профиля</h2>
+
+    {% if form.errors %}
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+        <ul>
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr><td><b>Имя пользователя:</b></td><td>{{ form.username }}</td></tr>
+            <tr>
+                {% if user.icon %} <td><img src="{{ user.icon.url }}" alt="{{ user.username }}" width="100"></td>
+                {% else %} <td>Нет фото</td>
+                {% endif %}
+                <td>{{ form.icon }}</td>
+            </tr>
+            <tr><td><b>Описание канала:</b></td><td>{{ form.description }}</td></tr>
+        </table>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}
