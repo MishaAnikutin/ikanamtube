@@ -7,12 +7,13 @@
   </video>
   <h2>{{ video.title }}</h2>
   <p>{{ video.description }}</p>
-
   <form method="post" action="{% url 'videos:like_dislike' video.id %}">
-    {% csrf_token %}
+      {% csrf_token %}
       <button type="submit" name="action" value="like">❤️ Лайк {{ likes_count }}</button>
       <button type="submit" name="action" value="dislike">👎 Дизлайк {{ dislikes_count }}</button>
+      {% if not user.is_authenticated %} <i>Авторизуйтесь чтобы ставить лайки</i> {% endif %}
   </form>
+
   <p>Загружено: {{ video.uploaded_at }}</p>
   <p><a href="{% url 'users:channel' video.channel.username %}">{{ video.channel.name }}</a></p>
   <a href="{% url 'videos:video_list' %}">Вернуться к списку видео</a>

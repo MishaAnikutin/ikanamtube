@@ -22,7 +22,9 @@ class Video(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     video_file = models.FileField(storage=storage, upload_to=videos_upload_to)
-    video_cover_file = models.ImageField(storage=storage, upload_to=video_cover_upload_to, blank=True, null=True)
+    video_cover_file = models.ImageField(
+        storage=storage, upload_to=video_cover_upload_to, blank=True, null=True
+    )
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -35,4 +37,4 @@ class LikeDislike(models.Model):
     is_like = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = (('user', 'video'), )
+        unique_together = (("user", "video"),)
