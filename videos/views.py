@@ -69,12 +69,15 @@ class LikeDislikeView(View):
         if not request.user.is_authenticated:
             return redirect(request.META.get("HTTP_REFERER"), context={'errors': 'Пользователь не авторизован'})
 
-        like_dislike, _ = LikeDislike.objects.get_or_create(
+        like_dislike, create = LikeDislike.objects.get_or_create(
             user=request.user, video=video
         )
 
-        like_dislike.delete()
-        like_dislike.is_like = request.POST.get("action") == "like"
-        like_dislike.save()
+        if create:
+            like_dislike.is_like = request.POST.get('action') == 'like'
+            like_dislike.save()
+
+        else:
+            like_dislike.delete()
 
         return redirect(request.META.get("HTTP_REFERER"))

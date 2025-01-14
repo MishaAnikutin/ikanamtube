@@ -1,0 +1,21 @@
+<div class="video-card">
+    <a href="{% url 'videos:video_detail' video.pk %}">
+        <div class="thumbnail-wrapper">
+            {% if video.video_cover_file %}
+            <img
+              src="{{ video.video_cover_file.url }}"
+              alt="{{ video.title }}"
+              class="video-thumbnail"
+            >
+            {% endif %}
+        </div>
+        <div class="video-info">
+            <h5 class="video-title">{{ video.title }}</h5>
+            <p class="video-description">{{ video.description }}</p>
+            <p class="video-channel">
+                <a href="{% url 'users:channel' video.channel.username %}">{{ video.channel.name }}</a>
+            </p>
+        </div>
+    </a>
+</div>
+

@@ -1,27 +1,20 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    <h2>Канал {{ user.name }}</h2>
+<link href="{% static 'styles/video.css' %}" rel="stylesheet" />
 
-    <div class="user-profile">
-        <img src="{{ user.icon.url }}" alt="{{ user.name }}" width="100">
-        <h3>{{ user.name }}</h3>
-        <p>{{ user.description }}</p>
-    </div>
+<h2>Канал {{ user.name }}</h2>
 
-    <h4>Видео:</h4>
-    <div id="videos-list">
-        {% for video in videos %}
-        <li>
-            {% if video.video_cover_file %}
-                <img src="{{ video.video_cover_file.url }}" alt="{{ video.title }}" width="500" height="300">
-            {% endif %}
-            <h3>{{ video.title }}</h3>
-            <p>{{ video.description }}</p>
-            <p>Загрузка: {{ video.uploaded_at }}</p>
-            <p>Канал: {{ video.channel.name }}</p>
-            <a href="{% url 'videos:video_detail' video.pk %}">Подробнее</a>
-        </li>
-        {% endfor %}
-    </div>
+<div class="user-profile">
+    <img src="{{ user.icon.url }}" alt="{{ user.name }}" width="100">
+    <h3>{{ user.name }}</h3>
+    <p>{{ user.description }}</p>
+</div>
+
+<h4>Видео:</h4>
+<div id="videos-list">
+    {% for video in videos %}
+        {% include 'components/video_component.html' %}
+    {% endfor %}
+</div>
 {% endblock %}

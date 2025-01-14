@@ -1,35 +1,15 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-  <h2>Список видео</h2>
+<link href="{% static 'styles/video.css' %}" rel="stylesheet" />
 
-  {% if videos %}
-    <ul>
-      {% for video in videos %}
-        {% include 'components/video_card.html' %}
-      {% endfor %}
-    </ul>
-
-    <!-- Пагинация -->
-    <div class="pagination">
-      <span class="page-links">
-        {% if page_obj.has_previous %}
-          <a href="?page=1">&laquo; Первая</a>
-          <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
-        {% endif %}
-
-        <span class="current">
-          Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
-          <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
-        {% endif %}
-      </span>
-    </div>
-
-  {% else %}
-    <p>Видео не найдены.</p>
-  {% endif %}
+<h2>Список видео</h2>
+{% if videos %}
+  <div class="video-grid">
+    {% for video in videos %}
+      {% include "components/video_component.html" with video=video %}
+    {% endfor %}
+  </div>
+{% else %} <p>Видео не найдены.</p> {% endif %}
 {% endblock %}
+

@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
+{% load static %}
+<link href="{% static 'styles/video.css' %}" rel="stylesheet" />
+
 {% block content %}
   <video width="800" height="450" controls>
     <source src="{% url 'videos:video_stream' video.pk %}" type="video/mp4">
-    Ваш браузер не поддерживает тег video.
   </video>
   <h2>{{ video.title }}</h2>
   <p>{{ video.description }}</p>
@@ -13,7 +15,6 @@
       <button type="submit" name="action" value="dislike">👎 Дизлайк {{ dislikes_count }}</button>
       {% if not user.is_authenticated %} <i>Авторизуйтесь чтобы ставить лайки</i> {% endif %}
   </form>
-
   <p>Загружено: {{ video.uploaded_at }}</p>
   <p><a href="{% url 'users:channel' video.channel.username %}">{{ video.channel.name }}</a></p>
   <a href="{% url 'videos:video_list' %}">Вернуться к списку видео</a>
